@@ -26,6 +26,6 @@ public class Calculator {
 			default: ;
 		}		
 		//System.out.println("The result = " + result);
-		System.out.print("calculation: " + num1 + " " + op + " " + num2 + " = " + result);
+		System.out.print("calculation: " + num1 + " " + op + " " + num2 + " = " + (double) result);
 	}
 }
