@@ -25,7 +25,7 @@ public class Calculator {
 			case ("/"): result = num1 / num2; break;
 			default: ;
 		}		
-		//System.out.println("The result = " + result);
+		
 		System.out.print("calculation: " + num1 + " " + op + " " + num2 + " = " + (double) result);
 	}
 }
