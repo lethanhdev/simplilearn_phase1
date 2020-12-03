@@ -18,9 +18,9 @@ public class FileHandling {
 	public static void main(String[] args) throws IOException {
 		FileHandling menu = new FileHandling();
 		menu.runMenu();
-	}
+	}//main()
 
-	public void runMenu() throws IOException {
+	public void runMenu() throws IOException {  		// looping thru the file operations
 		printHeader();
 		while (!exit) {
 			printMenu();
@@ -30,13 +30,13 @@ public class FileHandling {
 		input.close();
 	}
 
-	private void printHeader() {
+	private void printHeader() {								//print the header
 		System.out.println("+---------------------------+");
 		System.out.println("|  Menu: File Handling      |");
 		System.out.println("+---------------------------+");
 	}
 
-	private void printMenu() {
+	private void printMenu() {									//print the menu options
 		System.out.println();
 		System.out.println("1) Create a new File");
 		System.out.println("2) Read to File");
@@ -45,7 +45,7 @@ public class FileHandling {
 		System.out.println("0) Exit");
 	}
 
-	private int getMenuChoice() {
+	private int getMenuChoice() {								// return user's choice
 		int choice = -1;
 		do {
 			System.out.print("\nEnter your choice: ");
@@ -58,11 +58,10 @@ public class FileHandling {
 				System.out.println("Choice outside of range. Please chose again.");
 			}
 		} while (choice < 0 || choice > 4);
-		//keyboard.close();
 		return choice;
 	}
 	
-	private static void createFile(File file) throws IOException {
+	private static void createFile(File file) throws IOException {		// create a file
 		try {
 			if (file.createNewFile()) {
 				System.out.println("File created: " + file.getName() + "\n");
@@ -75,7 +74,7 @@ public class FileHandling {
 		}
 	}
 	
-	private static void readFile(File file) throws IOException {
+	private static void readFile(File file) throws IOException {		// read from the file
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String str;
 		while ((str = br.readLine()) != null) 
@@ -83,7 +82,7 @@ public class FileHandling {
 		br.close();
 	}
 	
-	private static void writeFile(File file) throws IOException {		
+	private static void writeFile(File file) throws IOException {		// write to the file
 	    try {
 	        FileWriter myWriter = new FileWriter(file);
 	        System.out.println("Enter your text to write to file: ");
@@ -96,16 +95,14 @@ public class FileHandling {
 	      }
 	}
 	
-	private static void appendFile(File file) throws IOException {	
+	private static void appendFile(File file) throws IOException {		//append to the file
 		FileWriter writer = new FileWriter(file, true);
 		System.out.print("append your text here: ");
 		writer.write(input.nextLine());
-		//sc.close();
-		writer.close();
-		
+		writer.close();		
 	}
 
-	private void performAction(int choice) throws IOException {
+	private void performAction(int choice) throws IOException {			// perform the choices
 		switch (choice) {
 		case 0:
 			System.out.println("Good Bye.");
