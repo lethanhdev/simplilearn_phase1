@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
 public class Repo {
 	
 	static final String dirPath = "/Users/thanhle/simplilearn/phase1/selfLearning/section6/src/simplilearn/repoDir";
 	final File   f = new File(dirPath + "file1.txt");
-	//final File sdir = new File(dirPath);					// for search method
-	static Scanner input = new Scanner(System.in);
-	
+	static Scanner input = new Scanner(System.in);	
 	boolean exit;
 
 	public static void main(String[] args) throws IOException {
@@ -20,13 +17,15 @@ public class Repo {
 		menu.runMenu();
 	}//main()
 
-	public void runMenu() throws IOException {  		// looping thru the file operations
+	public void runMenu() throws IOException {  		// looping thru the main file operations
 		printWelcome();
-		while (!exit) {
-			printMenu();
-			int choice = getMenuChoice();
-			performAction(choice);
-		}
+		while (!exit) {			
+			printMainMenu();
+			int choice = getMainMenuChoice();
+			
+			performMainAction(choice);					// for  Main choice #1, #2, #3
+		}//while()
+		
 		input.close();
 	}
 
@@ -37,18 +36,25 @@ public class Repo {
 		System.out.println("| choosing options from the Menu below |");
 		System.out.println("+--------------------------------------+");
 	}
-
-	private void printMenu() {												//print the menu options
+	
+	private void printMainMenu() {												//print the menu options
 		System.out.println();
 		System.out.println("   Main Menu:");
-		System.out.println("1) List Files");
-		System.out.println("2) Add a File");
-		System.out.println("3) Delete a File");
-		System.out.println("4) Search a File");
-		System.out.println("5) Exit");
+		System.out.println("1) List files");
+		System.out.println("2) To Add, Delete and Search a file");
+		System.out.println("3) Exit");
+	}
+	
+	private void printSubMenu() {
+		System.out.println();
+		System.out.println("   Sub Menu:");
+		System.out.println("1) Add a file");
+		System.out.println("2) Delete a file");
+		System.out.println("3) Search a file");
+		System.out.println("4) Back to Main Menu");
 	}
 
-	private int getMenuChoice() {											// return user's choice
+	private int getMainMenuChoice() {											// return user's choice
 		int choice = -1;
 		do {
 			System.out.print("\nEnter your choice: ");
@@ -57,10 +63,28 @@ public class Repo {
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid selection. Numbers only please.");
 			}
-			if (choice < 1 || choice > 5) {
+			if (choice < 1 || choice > 3) {
 				System.out.println("Choice outside of range. Please chose again.");
 			}
-		} while (choice < 1 || choice > 5);
+		} while (choice < 1 || choice > 3);
+		return choice;
+	}
+	
+	private int getSubMenuChoice() {											// return user's choice
+		int choice = -1;
+		do {
+			printSubMenu();
+			
+			System.out.print("\nEnter your sub choice: ");
+			try {
+				choice = Integer.parseInt(input.nextLine());
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid selection. Numbers only please.");
+			}
+			if (choice < 1 || choice > 4) {
+				System.out.println("Choice outside of range. Please chose again.");
+			}
+		} while (choice < 1 || choice > 4);
 		return choice;
 	}
 	
@@ -72,7 +96,7 @@ public class Repo {
 			System.out.println("> Current files in directory: ");
 			Arrays.sort(filesList);													// files in ascending order
 			for(File f: filesList) 
-				if (f.getName().charAt(0) != '.')
+				if (f.getName().charAt(0) != '.')									// don't list ".*" files
 					System.out.println(f.getName());
 		} else
 			System.out.println("> dir Does Not exist.");
@@ -125,19 +149,34 @@ public class Repo {
 			}
 		}
 	}
-
-	private void performAction(int choice) throws IOException {						// perform the choices
+	
+	private void performMainAction(int choice) throws IOException {						// perform the choices
 		switch (choice) {
-			case 1: listFiles(dirPath); break;
-			case 2: addFile(dirPath); break;
-			case 3: deleteFile(dirPath); break;
-			case 4: searchFile(dirPath); break;
-			case 5:
-				System.out.println("Thank you and good bye.");
-				System.exit(0);
-				break;
+			case 1: listFiles(dirPath)    ; break;
+			case 2: performSubAction()    ; break;
+			case 3: System.out.println("Thank you and good bye.");
+				    System.exit(0);
+				    break;
 			default: System.out.println("\nUnknown error has occured.\n");
 		}
+	}
+	
+	private void performSubAction() throws IOException {						// perform the choices
+										
+		boolean done = false;
+		
+		while (!done) {			
+			switch (getSubMenuChoice()) {										// subChoices are from 1-4
+				case 1: addFile(dirPath); break;
+				case 2: deleteFile(dirPath); break;
+				case 3: searchFile(dirPath); break;
+				case 4: { System.out.println("> Back to Main Menu");
+					      done = true; 
+					      break;
+						}
+				default: System.out.println("\nUnknown error has occured.\n");
+			}
+		}//while
 	}
 
 }//Repo
